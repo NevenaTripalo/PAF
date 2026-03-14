@@ -1,0 +1,27 @@
+#Napišite funkciju koja kao ulazne parametre prima (x,y) koordinate za dvije točke. Neka ta funkcija na
+#ekran ispisuje jednadžbu pravca koji prolazi kroz te dvije točke.
+#Pozovite tu funkciju u svom programu.
+
+def pravac(par1, par2):
+    x1, y1=par1
+    x2, y2=par2
+#provjera jesu li točke iste: beskonačno mnogo pravaca
+    if x1 == x2 and y1 == y2:
+        print("Unijeli ste dvije iste točke. Kroz jednu točku prolazi beskonačno mnogo pravaca.")
+
+    elif x1==x2:
+        print (f"Jednadžba ovoga pravca glasi x= {x1}")
+    elif y1==y2:
+        print (f"Jednadžba ovoga pravca glasi y= {y1}")
+    #rješavanje dvije jednadžbe s dvije nepoznanice (y1=ax1+b, y2=ax2+b)
+    else:
+        a=(y1-y2)/(x1-x2)
+        a=round(a,2)
+        b=y1-a*x1
+        b=round(b,2)
+        if b<0:
+            print (f"Jednadžba ovoga pravca glasi y={a}x{b}")
+        else:
+            print (f"Jednadžba ovoga pravca glasi y={a}x+{b}")
+    
+pravac((3, 2),(6, 7))
