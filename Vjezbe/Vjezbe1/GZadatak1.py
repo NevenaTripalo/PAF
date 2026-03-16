@@ -73,11 +73,10 @@ while True:
     except:
         print("Pogreška pri unosu. ")
         continue
-
-put=x0 + v0 + akceleracija
+        
 plt.subplot(1, 3, 3)
 x=np.linspace(0, t, 50)
-put=x0 + v0 + (akceleracija*x**2)/2
+put=x0 + v0*t + (akceleracija*x**2)/2
 y=put
 plt.grid(True)
 plt.margins(x=0)
