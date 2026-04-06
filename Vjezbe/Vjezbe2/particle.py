@@ -38,7 +38,6 @@ class Particle:
         self.reset()
         while self.y>=0:
             self.__move(dt)
-        print(f"Domet ovoga projektila je {self.x} m. ")
         return self.x
     
     def plot_trajectory(self, dt): #crta putanju projektila
