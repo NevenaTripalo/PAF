@@ -11,5 +11,6 @@ theta = math.radians(45)
 g = 9.81
 analitički = v0**2 * math.sin(2*theta) / g
 
+print("Numerički domet: ", cestica1.range(dt))
 print("Analitički domet:", analitički)
 print("Relativna pogreška:", abs(cestica1.range(dt) - analitički) / analitički)
