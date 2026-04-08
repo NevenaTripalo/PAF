@@ -21,8 +21,8 @@ def analiticko_kubna(x):
 def analiticko_sinus(x):
     return np.cos(x)
 
-donjaGS=-1   #granice za sinusnu
-gornjaGS=1
+donjaGS=-6   #granice za sinusnu
+gornjaGS=6
 
 donjaGK=-3
 gornjaGK=3
@@ -35,7 +35,9 @@ plt.plot(xs, analiticko_sinus(xs), linewidth=1, color="hotpink", label="Analiti�
 for epsilon in epsiloni:
     tockeS, derivacijeS=di(trig, donjaGS, gornjaGS, epsilon)        #derivacije i tocke za sinusnu funkciju
     plt.scatter(tockeS, derivacijeS, s=8, label=f"ε={epsilon}")
-plt.title("sin(x) numericka i analiticko")
+plt.title("sin(x)")
+plt.xlabel("x")
+plt.ylabel("f'(x)")
 plt.grid()
 plt.legend()
 
@@ -46,9 +48,12 @@ plt.plot(xk, analiticko_kubna(xk), linewidth=1, color= "hotpink", label="Analiti
 for epsilon in epsiloni:
     tockeK, derivacijeK=di(kubna, donjaGK, gornjaGK, epsilon)       #derivacije i tocke za kubnu funkciju
     plt.scatter(tockeK, derivacijeK, s=8, label=f"ε={epsilon}")
-plt.title("kubna numericka i analiticko")
+plt.xlabel("x")
+plt.ylabel("f'(x)")
+plt.title("x^3")
 plt.legend()
 plt.grid()
 
+plt.suptitle("Analiticka i numericke derivacije funkcija")
 plt.tight_layout()
 plt.show()
