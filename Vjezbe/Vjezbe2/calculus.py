@@ -10,6 +10,7 @@
 # kao jedan od ulaznih parametara prima i veličinu koraka derivacije ϵ i metodu kojom derivira.
 # Neka "three-step" metoda bude zadana ako korisnik ništa ne odabere, a "two-step" metoda bude druga ponuđena opcija.
 
+
 import numpy as np
 import math
 
@@ -30,6 +31,24 @@ def derivacija_interval (f, donjaG, gornjaG, epsilon, metoda="three_step"):
         derInterval.append(derivacija_tocka(f, x, epsilon, metoda))
     
     return tocke, derInterval
+
+#Prva metoda kao ulazne parametre prima funkciju, granice integracije i broj podjela za numeričku
+#integraciju, a vraća gornju i donju među koristeći pravokutnu aproksimaciju.
+def meda(f, donjaGr, gornjaGr, N):
+    if donjaGr>gornjaGr:
+        donjaGr, gornjaGr= gornjaGr, donjaGr
+    elif donjaGr==gornjaGr:
+        return 0, 0
+    else:
+        gornja=0
+        donja=0
+        x=np.linspace(a,b, N+1)
+        dx=(gornjaGr-donjaGr)/N
+        for i in range(N):
+            donja+=f(x)*dx 
+        print(donja)
+        for i in range(1, n+1):
+            gornja+=a
 
 def funkcija(x):
     return x**2
