@@ -29,10 +29,10 @@ class Particle:
     
     def __move(self, dt): #privatna metoda koja pomice cesticu za dt
         self.t += dt
+        self.vy -= self.g*dt  #vy_i+1 = vy_i - gdt
         self.x += self.vx*dt
         self.y += self.vy*dt - 0.5*self.g*dt**2
         # vx_i+1 = vx_i, vx ostaje isti
-        self.vy -= self.g*dt  #vy_i+1 = vy_i - gdt
         
     def range(self, dt): #numericki racuna domet projektila
         self.reset()
