@@ -11,11 +11,11 @@ theta = math.radians(60)
 g = 9.81
 analiticko = v0**2 * math.sin(2*theta) / g
 
-intervali=np.linspace(0.001, 0.1, 500)
+intervali=np.linspace(0.001, 0.1, 100)
 greske = []
+cestica = Particle(10, 60, 0, 0)
 
 for dt in intervali:
-    cestica = Particle(10, 60, 0, 0)
     numericko = cestica.range(dt)
     greska = (abs(numericko - analiticko) / analiticko)*100
     greske.append(greska)
