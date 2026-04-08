@@ -34,7 +34,7 @@ def derivacija_interval (f, donjaG, gornjaG, epsilon, metoda="three_step"):
 
 #Prva metoda kao ulazne parametre prima funkciju, granice integracije i broj podjela za numeričku
 #integraciju, a vraća gornju i donju među koristeći pravokutnu aproksimaciju.
-def meda(f, donjaGr, gornjaGr, N):
+def pravokutna(f, donjaGr, gornjaGr, N):
     if donjaGr>gornjaGr:
         donjaGr, gornjaGr= gornjaGr, donjaGr
     elif donjaGr==gornjaGr:
@@ -42,15 +42,34 @@ def meda(f, donjaGr, gornjaGr, N):
     else:
         gornja=0
         donja=0
-        x=np.linspace(a,b, N+1)
         dx=(gornjaGr-donjaGr)/N
-        for i in range(N):
-            donja+=f(x)*dx 
-        print(donja)
-        for i in range(1, n+1):
-            gornja+=a
+        for x in range(N):
+            livi_kraj= donjaGr + x*dx
+            desni_kraj= donjaGr +(x+1)*dx
+            xk=np.linspace(livi_kraj, desni_kraj, 10)
+            mali_komadic=(desni_kraj - livi_kraj)*min(f(xk))
+            veliki_komadic=(desni_kraj - livi_kraj)*max(f(xk))
+            donja+=mali_komadic
+            gornja+=veliki_komadic
+            
+        return donja, gornja
 
-def funkcija(x):
-    return x**2
+#Druga metoda ima iste ulazne parametre a vraća numeričku vrijednost integrala koristeći trapeznu formulu.
+def trapezna (f, donjaGr, gornjaGr, N):
+    if donjaGr>gornjaGr:
+        donjaGr, gornjaGr= gornjaGr, donjaGr
+    elif donjaGr==gornjaGr:
+        return 0
+    else:
+        dx=(gornjaGr-donjaGr)/N
+        suma_unutar=0
+        for i in range(1, N):
+            x_i = donjaGr + i * dx
+            suma_unutar += f(x_i)
+        integral = dx * ( (f(donjaGr) + f(gornjaGr)) / 2 + suma_unutar)
+        return integral
+    
+#def funkcija(x):
+#    return x**2
 #print(derivacija_tocka(funkcija, 4, 0.0001))
 #print(derivacija_interval(funkcija, 6, 8, 0.0001))
