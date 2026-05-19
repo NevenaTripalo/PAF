@@ -1,0 +1,53 @@
+#Koristeći funkcije iz Vježbe 5, za svaki valjak izračunajte:
+#(a) Srednji radijus ¯R i σR.
+#(b) Srednju duljinu ¯ L i σL.
+#(c) Srednju masu ¯m i σm.
+#Ispišite rezultate.
+import math
+import numpy as np
+import statistics as stats
+
+#vrijednosti
+dijametri1=[19.98, 20.18, 20.10, 20.08, 19.74] #dijametri u mm
+dijametri2=[19.92, 19.82, 19.96, 19.98, 19.88]
+dijametri3=[24.96, 24.98, 24.98, 24.92, 24.94]
+
+duljine1=[49.80, 49.00, 50.48, 49.80, 49.96]#duljine u mm
+duljine2=[52.56, 52.50, 52.62, 52.58, 52.54]
+duljine3=[55.34, 55.40, 55.30, 55.44, 55.48]
+
+mase1=[138.92, 138.98, 139.20, 138.90, 138.92] #mase valjaka u gramims
+mase2=[128.65, 128.60, 128.65, 128.35, 128.50]
+mase3=[71.89, 71.90, 71.79, 71.85, 71.70]
+
+#radijus valjaka
+radijusi1=[dijametar/2 for dijametar in dijametri1]
+radijusi2=[dijametar/2 for dijametar in dijametri2]
+radijusi3=[dijametar/2 for dijametar in dijametri3]
+
+radijusi = [radijusi1, radijusi2, radijusi3]
+duljine = [duljine1, duljine2, duljine3]
+mase = [mase1, mase2, mase3]
+
+#standardno odstupanje za sve podatke kao funkcija
+def sigma(lista):
+    srednja_vrijednost = stats.mean(lista)
+    n = len(lista)
+    suma = sum((x - srednja_vrijednost)**2 for x in lista)
+    sigma = math.sqrt(suma / (n * (n - 1)))
+    return sigma
+
+for i in range(3):
+    R_srednji = stats.mean(radijusi[i])
+    R_sigma = sigma(radijusi[i])
+
+    L_srednja = stats.mean(duljine[i])
+    L_sigma = sigma(duljine[i])
+
+    m_srednja = stats.mean(mase[i])
+    m_sigma = sigma(mase[i])
+
+    print(f"Vrijednosti za valjak {i+1}:")
+    print(f"Srednji radijus = {R_srednji} mm, σR = {R_sigma} mm")
+    print(f"Srednja duljina= {L_srednja} mm, σL = {L_sigma} mm")
+    print(f"Srednja masa = {m_srednja} g,  σm = {m_sigma} g")
