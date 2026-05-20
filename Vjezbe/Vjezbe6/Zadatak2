@@ -1,0 +1,85 @@
+# Napišite funkciju volumen_valjka(R, L) koja prima R i L u centimetrima i vraća volumen u cm3 i
+# funkciju sigma_volumena(R, sigma_R, L, sigma_L) koja računa standardnu devijaciju volumena
+# po formuli za propagaciju pogreške.
+# Izračunajte i ispišite rezultate u znanstvenom zapisu za sva tri valjka.
+import math
+import numpy as np
+import statistics as stats
+
+dijametri1=[19.98, 20.18, 20.10, 20.08, 19.74] #dijametri u mm
+dijametri2=[19.92, 19.82, 19.96, 19.98, 19.88]
+dijametri3=[24.96, 24.98, 24.98, 24.92, 24.94]
+
+duljine1=[49.80, 49.00, 50.48, 49.80, 49.96]#duljine u mm
+duljine2=[52.56, 52.50, 52.62, 52.58, 52.54]
+duljine3=[55.34, 55.40, 55.30, 55.44, 55.48]
+
+mase1=[138.92, 138.98, 139.20, 138.90, 138.92] #mase valjaka u gramims
+mase2=[128.65, 128.60, 128.65, 128.35, 128.50]
+mase3=[71.89, 71.90, 71.79, 71.85, 71.70]
+
+#radijus valjaka
+radijusi1=[dijametar/2 for dijametar in dijametri1]
+radijusi2=[dijametar/2 for dijametar in dijametri2]
+radijusi3=[dijametar/2 for dijametar in dijametri3]
+
+radijusi = [radijusi1, radijusi2, radijusi3]
+duljine = [duljine1, duljine2, duljine3]
+mase = [mase1, mase2, mase3]
+
+#standardno odstupanje za sve podatke kao funkcija
+def sigma(lista):
+    srednja_vrijednost = stats.mean(lista)
+    n = len(lista)
+    suma = sum((x - srednja_vrijednost)**2 for x in lista)
+    sigma = math.sqrt(suma / (n * (n - 1)))
+    return sigma
+
+#prazne liste
+#za spremanje podataka za racunanje voljumena u sigma V u 2.zad
+srednji_radijusi=[]
+srednje_duljine=[]
+srednje_mase=[]
+R_greske=[]
+L_greske=[]
+m_greske=[]
+
+for i in range(3):
+    R_srednji = stats.mean(radijusi[i])
+    R_sigma = sigma(radijusi[i])
+
+    L_srednja = stats.mean(duljine[i])
+    L_sigma = sigma(duljine[i])
+
+    m_srednja = stats.mean(mase[i])
+    m_sigma = sigma(mase[i])
+    
+    srednji_radijusi.append(R_srednji)
+    srednje_duljine.append(L_srednja)
+    srednje_mase.append(m_srednja)
+    R_greske.append(R_sigma)
+    L_greske.append(L_sigma)
+    m_greske.append(m_sigma)
+
+def volumen_valjka(R, L): #u centimetrima i vraca volumen u cm3
+    #volumen valjka je baza puta visina
+    #B=r**pi, h=L
+    baza = R**2*math.pi
+    V = baza*L
+    return V #bolje returnati broj a formatirati dolje samo ispis
+    
+def sigma_volumena(R, sigma_R, L, sigma_L): #pa cemo pozvat za svaki valjak
+   parc_VR = 2*math.pi*R*L        #parc derivacija volumena po R
+   parc_VL = math.pi*R**2         #parc derivacija volumnea po duljini
+   sigma_V = math.sqrt((parc_VR*sigma_R)**2 + (parc_VL*sigma_L)**2)
+   return sigma_V
+
+for i in range (3): #mjere trebaju biti u cm!! a bile su u mm
+    R = srednji_radijusi[i] / 10
+    L = srednje_duljine[i] / 10
+    sigma_R = R_greske[i] / 10
+    sigma_L = L_greske[i] / 10
+    volumen = volumen_valjka(R, L)
+    greskaV = sigma_volumena(R, sigma_R, L, sigma_L)
+    print(f"Volumen {i+1}. valjka iznosi:  {volumen:.3e} cm^3") #formatiranje na 3 decimale i znanstveni zapis
+    print(f"Standardna devijacija za volumen {i+1}. valjka iznosi:  {greskaV:.3e} cm^3")
