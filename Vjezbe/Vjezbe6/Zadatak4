@@ -1,0 +1,13 @@
+#Na temelju izračunatih gustoća odredite od kojeg je materijala svaki valjak te izračunajte relativnu pogrešku.
+gustoce= [8.867909191628804, 7.854111743593827, 2.6509088786162143]
+bakar=8.960
+zeljezo=7.874
+aluminij=2.700
+literatura=[bakar, zeljezo, aluminij]
+metali=["bakar", "zeljezo", "aluminij"]
+
+for i in range(3):
+    rel_pogreska=abs(gustoce[i]-literatura[i])/literatura[i]*100
+    print(f"Relativna pogreska za {metali[i]} je: {rel_pogreska}")
+
+
