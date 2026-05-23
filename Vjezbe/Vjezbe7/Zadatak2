@@ -1,0 +1,25 @@
+# Nacrtajte histogram podataka mase_ciste koristeći gotovi modul.
+# Koristite k = 10 razreda i usporedite dobivene frekvencije s rezultatima Zadatka 1.
+# Na isti graf ucrtajte vertikalnu liniju na poziciji aritmetičke sredine i medijana.
+# Isprobajte kako izgleda graf kada promijenite broj razreda.
+
+import numpy as np
+import math
+import matplotlib.pyplot as plt
+
+np.random.seed(42)
+mase_ciste = np.random.normal(loc=2.06, scale=0.05, size=57).tolist()
+mase = mase_ciste + [6.0, 1.2, 3.2, 4.5, 8.5, 7.8, 0.08, 0.02]
+
+#srednja vrijendost i medijan
+srednja_vrijednost = np.mean(mase_ciste)
+medijan = np.median(mase_ciste)
+
+plt.hist(mase_ciste, bins=10, edgecolor="black", color="skyblue")
+plt.axvline(srednja_vrijednost, color="red", label="A. sredina")
+plt.axvline(medijan, color="green", label="Medijan")
+plt.xlabel("Masa [M_sun]")
+plt.ylabel("Broj mjerenja")
+plt.title("Histogram masa (gotovi modul)")
+plt.legend()
+plt.show()
