@@ -26,7 +26,6 @@ def histogram(podaci, k): #k je broj razreda
             vrijednosti=[x for x in podaci if (x >= lijevi_rub) and (x < desni_rub)]
             broj=len(vrijednosti)
             broj_vrijednosti.append(broj)
-            #print(broj) #fali izraz
         else:
             vrijednosti = [x for x in podaci if (x >= lijevi_rub) and (x <= desni_rub)]
             broj=len(vrijednosti)
@@ -40,7 +39,7 @@ histogram(mase_ciste, 10)
 h, rubovi, brojevi = histogram(mase_ciste, 10)
 
 plt.bar(rubovi[:-1], brojevi, width=h, color= "hotpink", edgecolor='black') #rubovi ima k+1 vrijednosti, a brojevi k
-plt.xlabel("Masa [M_sun]")      #u kojoj mjernoj jedinici
+plt.xlabel("Masa [M_sun]") 
 plt.ylabel("Broj mjerenja")
 plt.title("Histogram masa (ručno izračunat)")
 plt.show()
