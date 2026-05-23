@@ -1,0 +1,46 @@
+#Napišite funkciju histogram(podaci, k) koja prima listu mjerenja i broj razreda k te:
+#(a) izračuna širinu razreda h prema formuli (2) i rubove svakog razreda,
+#(b) prebroji koliko podataka pada u svaki razred,
+#(c) ispiše histogram u tekstualnom obliku
+
+import numpy as np
+import math
+import matplotlib.pyplot as plt
+
+
+np.random.seed(42)
+mase_ciste = np.random.normal(loc=2.06, scale=0.05, size=57).tolist()
+mase = mase_ciste + [6.0, 1.2, 3.2, 4.5, 8.5, 7.8, 0.08, 0.02] # pogreske pri redukciji podataka (outlieri)
+
+def histogram(podaci, k): #k je broj razreda
+    rubovi=[]
+    broj_vrijednosti=[]
+    x_max=max(podaci)
+    x_min=min(podaci)
+    h=(x_max - x_min)/k # h je sirina razreda
+    for i in range(k):
+        lijevi_rub= x_min + i*h
+        desni_rub=x_min + (i+1)*h
+        rubovi.append(lijevi_rub)
+        if i<k-1:
+            vrijednosti=[x for x in podaci if (x >= lijevi_rub) and (x < desni_rub)]
+            broj=len(vrijednosti)
+            broj_vrijednosti.append(broj)
+            #print(broj) #fali izraz
+        else:
+            vrijednosti = [x for x in podaci if (x >= lijevi_rub) and (x <= desni_rub)]
+            broj=len(vrijednosti)
+            broj_vrijednosti.append(broj)
+        print(f"[{lijevi_rub:.3f}, {desni_rub:.3f}): {broj}")    
+    rubovi.append(x_max)  #njega se dodaje posebno jer ne upada u petlju (nikad nije lijevi rub)
+    return h, rubovi, broj_vrijednosti
+        
+histogram(mase_ciste, 10)
+
+h, rubovi, brojevi = histogram(mase_ciste, 10)
+
+plt.bar(rubovi[:-1], brojevi, width=h, color= "hotpink", edgecolor='black') #rubovi ima k+1 vrijednosti, a brojevi k
+plt.xlabel("Masa [M_sun]")      #u kojoj mjernoj jedinici
+plt.ylabel("Broj mjerenja")
+plt.title("Histogram masa (ručno izračunat)")
+plt.show()
