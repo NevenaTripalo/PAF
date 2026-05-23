@@ -1,0 +1,48 @@
+#Za skup mase izračunajte aritmetičku sredinu i medijan te ispišite razliku između njih.
+# Uklonite vrijednosti koje značajno odstupaju od mjerenja i ponovite izračun.
+# Za koliko se promijenila srednja vrijednost, a za koliko medijan?
+# Na jedan graf ucrtajte histogram svih mjerenja te sve četiri vertikalne linije
+# (srednja i medijan sa i bez pogrešnih mjerenja).
+# Što ovaj rezultat govori o tome koja veličina bolje procjenjuje pravu masu zvijezde?
+
+import numpy as np
+import math
+import matplotlib.pyplot as plt
+
+np.random.seed(42)
+mase_ciste = np.random.normal(loc=2.06, scale=0.05, size=57).tolist()
+mase = mase_ciste + [6.0, 1.2, 3.2, 4.5, 8.5, 7.8, 0.08, 0.02]
+
+ar_sredina = np.mean(mase)
+medijan = np.median(mase)
+razlikaM= abs(ar_sredina - medijan)
+print(f"Za skup 'mase' razlika je: {razlikaM}")
+
+#skup bez podataka koji puno odskacu je "mase_ciste"
+ar_sredinaC = np.mean(mase_ciste)
+medijanC = np.median(mase_ciste)
+razlikaMC= abs(ar_sredinaC - medijanC)
+print(f"Za skup 'mase_ciste' razlika je: {razlikaMC}")
+
+razlika_arSredina = abs(ar_sredina - ar_sredinaC)
+razlika_medijan = abs(medijan - medijanC)
+print(f"Razlika 1. i 2. medijana je: {razlika_medijan}")
+print(f"Razlika 1. i 2. aritm. sredine je: {razlika_arSredina}")
+
+
+plt.hist(mase, bins=10, edgecolor='black', color='mediumpurple', alpha=0.4)
+
+# srednja vrijednost s podatcima koji odskacu
+plt.axvline(ar_sredina, color='red', linewidth=2, label=f"Sredina (s outlierima) = {ar_sredina:.4f}")
+# medijan s podatcima koji odskacu
+plt.axvline(medijan, color='orange', linewidth=3, linestyle="dotted", label=f"Medijan (s outlierima) = {medijan:.4f}")
+#srednja vrijednost bez outliera
+plt.axvline(ar_sredinaC, color='hotpink', linewidth=2, label=f"Sredina (bez outliera) = {ar_sredinaC:.4f}")
+#medijan bez outliera
+plt.axvline(medijanC, color='green', linewidth=1, label=f"Medijan (bez outliera) = {medijanC:.4f}")
+
+plt.xlabel("Masa [M_sun]")
+plt.ylabel("Broj mjerenja")
+plt.title("Histogram masa: utjecaj outliera na sredinu i medijan")
+plt.legend()
+plt.show()
