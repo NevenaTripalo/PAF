@@ -1,0 +1,28 @@
+#Napišite funkciju medijan(podaci) koja računa medijan
+# prema formuli (1) bez korištenja gotovih modula (sorted() je dopušten).
+# Testirajte funkciju na dva primjera a i b, primijenite na mase i ispisite rezultat
+#provjerite preko numpy.median()
+import numpy as np
+
+np.random.seed(42)
+mase_ciste = np.random.normal(loc=2.06, scale=0.05, size=57).tolist()
+mase = mase_ciste + [6.0, 1.2, 3.2, 4.5, 8.5, 7.8, 0.08, 0.02]
+
+a = [3, 1, 4, 1, 5, 9, 2, 6] # paran n
+b = [3, 1, 4, 1, 5, 9, 2, 6, 5] # neparan n
+
+def medijan(podaci):
+    n=len(podaci)
+    sortirani=sorted(podaci)
+    if n % 2 != 0:
+        med=sortirani[int(n/2)]
+    else:
+        med=(sortirani[int(n/2) - 1] + sortirani[int(n/2)])/2
+    print("Medijan ovog seta podataka je: ", med)
+    return(med)
+
+medijan(a)
+medijan(b)
+
+medijan(mase)
+print("Preko gotovog modula np.median:", np.median(mase))
