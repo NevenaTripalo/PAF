@@ -3,6 +3,7 @@
 #Parametri su nam zadani kao M = [0.052,0.124,0.168,0.236,0.284,0.336] Nm, φ = [0.1745,0.3491,0.5236,0.6981,0.8727,1.0472] rad
 
 import math
+import matplotlib.pyplot as plt
 
 # parametri
 M = [0.052, 0.124, 0.168, 0.236, 0.284, 0.336]      # y
@@ -43,3 +44,15 @@ sigma_a = math.sqrt((1/n) * (y2_srednje / x2_srednje - a*a))
 # 7. Ispis
 print("D_t (modul torzije) =", a)
 print("sigma_a =", sigma_a)
+
+plt.title("Linearna regresija: M = Dt*fi")
+plt.xlabel("phi [rad]")
+plt.ylabel("M[Nm]")
+plt.scatter(phi,M)
+
+x=phi
+y=[a* x for x in x]
+
+plt.plot(x,y, color="hotpink", label="Model M= Dt * fi")
+plt.grid()
+plt.show()
