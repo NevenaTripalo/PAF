@@ -1,0 +1,59 @@
+'''U pokusu s diskom, disk slobodno pada dok odmata nit s osovine polumjera r. Izmjereni su prosječni padovi
+h (mjereni od dna) i odgovarajuća srednja vremena pada t. Ukupna visina iznosi h0 = 0.54m, masa diska
+m=525.7g, polumjer osovine r = 4.025mm.'''
+
+import matplotlib.pyplot as plt
+import math
+import numpy as np
+
+m = 0.5257      # kg
+r = 4.025e-3        # m
+h = [0.14, 0.17, 0.19, 0.22, 0.25, 0.28, 0.31, 0.34, 0.37, 0.40]        # m
+h=np.array(h)
+t_mean = [1.740, 1.793, 2.043, 2.190, 2.280, 2.417, 2.540, 2.640, 2.670, 2.813]     # s
+t_mean=np.array(t_mean)
+
+#(a) Linearizacijom prema jednadžbi (5) napravite prikaz log(s)- log(t) i odredite nagib i odsječak.
+# Nacrtajte točke mjerenja i odgovarajući pravac. Ispišite rezultate za parametre a i b te njihove pogreške.
+
+# jednadzba 5: log(s) = 2 log(t) + log (A_ef / 2)
+#a bi trebao biti 2
+
+n=len(h)
+
+x=np.log(t_mean)
+y=np.log(h)
+
+suma_x = np.sum(x)       #sume potrebne za racunanje a i b preko metode NMK
+suma_y = np.sum(y)
+suma_xy = np.sum(x * y)
+suma_x2 = np.sum(x **2)
+a = (n*suma_xy - suma_x*suma_y) / (n*suma_x2 - (suma_x)**2)
+b = (suma_y - a*suma_x)/n
+
+# racunanje pogreske a)
+y_pred= a*x +b
+razlika= y - y_pred
+sigma = math.sqrt(np.sum(razlika**2)/(n-2)) #2 stupnja slobode
+
+
+nazivnik=n*suma_x2 - (suma_x)**2
+sigma_a = sigma* math.sqrt(n/nazivnik)
+sigma_b = sigma*math.sqrt(suma_x2/nazivnik)
+
+
+#ispisivanje rezultata za a i b
+print(f"Vrijednost parametra a: {a} ± {sigma_a}")
+print(f"Vrijednost parametra b: {b} ± {sigma_b}")
+
+y_fitano = a*x + b
+plt.scatter(x, y, color = "red", label ="Eksperimentalna mjerenja(log-log)")
+plt.plot(x, y_fitano, color = "hotpink", label ="fit pravca")
+
+
+plt.xlabel("log(t[s])")
+plt.ylabel("log(s[m])")
+plt.grid()
+plt.title("Linearna regresija: log(s) = 2log(t)+log(a/2)")
+plt.show()
+
