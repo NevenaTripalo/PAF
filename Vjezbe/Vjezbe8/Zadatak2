@@ -1,0 +1,72 @@
+'''Fizikalno njihalo ovješeno je pod kutom θ u odnosu na vertikalu. Izmjereni su periodi titranja za dvije
+duljine njihala, L = 120mm i L = 240mm, pri kutovima od 0◦ do 85◦'''
+
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.optimize import curve_fit
+
+g = 9.81
+
+# kutovi u stupnjevima u radijane
+kut_deg = np.array([0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85])
+kut_rad = np.radians(kut_deg)
+
+# izmjereni periodi za L1 = 120 mm
+T_120 = np.array([0.8020, 0.8187, 0.8327, 0.8660, 0.8980, 0.9153, 0.9293, 0.9653, 0.9747, 
+    1.0200, 1.0373, 1.1160, 1.1780, 1.2733, 1.4180, 1.6373, 1.9100, 2.5460])
+
+# periodi za L2 = 240 mm
+T_240 = np.array([1.0140, 1.0320, 1.0433, 1.0673, 1.0840, 1.1320, 1.1440, 1.1720, 1.1980, 
+    1.2293, 1.2813, 1.3573, 1.4200, 1.5600, 1.7413, 1.9840, 2.4473, 3.1573])
+
+# teoretske duljine u m
+L1_teoretsko = 0.120  # m
+L2_teoretsko = 0.240  # m
+
+#definiranje teorijske funkcije za fit
+#funkcija računa period na temelju kuta i efektivne duljine l
+def teorijski_period(theta, l):
+    return 2 * np.pi * np.sqrt(l / (g * np.cos(theta)))
+
+
+#fitanje podataka sa funkcijom curve_fit
+#p= je samo pocetna procjena da python lakse izracuna
+#matrica pogresaka nam ne treba pa je ignoriramo stavimo _
+parametri_fita_L1, _ = curve_fit(teorijski_period, kut_rad, T_120, p0=[0.1])
+parametri_fita_L2, _ = curve_fit(teorijski_period, kut_rad, T_240, p0=[0.2])
+
+# dobivene eksperimentalne efektivne duljine
+l1_eksperimentalno = parametri_fita_L1[0]       #uvik vraca listu iako je u njoj samo jedan broj
+l2_eksperimentalno = parametri_fita_L2[0]
+
+# relativna pogreška
+rel_pogreska_L1 = np.abs(L1_teoretsko - l1_eksperimentalno) / L1_teoretsko
+rel_pogreska_L2 = np.abs(L2_teoretsko - l2_eksperimentalno) / L2_teoretsko
+
+#ispis rezultata
+print(f"Eksperimentalna duljina l1 (za L=120mm): {l1_eksperimentalno:.4f} m")
+print(f"Eksperimentalna duljina l2 (za L=240mm): {l2_eksperimentalno:.4f} m")
+print(f"Relativna pogreška mjerenja duljine 1  : {rel_pogreska_L1 * 100:.2f} %")
+print(f"Relativna pogreška mjerenja duljine 2  : {rel_pogreska_L2 * 100:.2f} %")
+
+#graficki prikaz
+plt.figure(figsize=(10, 6))
+
+# kontinuirani kutovi za crtanje glatkih teorijskih krivulja
+kut_gusti_deg = np.linspace(0, 85, 500)
+kut_gusti_rad = np.radians(kut_gusti_deg)
+
+# crtanje mjerenih točaka
+plt.scatter(kut_deg, T_120, color="red", label="Mjerenja L = 120 mm")
+plt.scatter(kut_deg, T_240, color="green", label="Mjerenja L = 240 mm")
+
+# crtanje fittanih (teorijskih) krivulja kroz te točke
+plt.plot(kut_gusti_deg, teorijski_period(kut_gusti_rad, l1_eksperimentalno), color="orange", linewidth=2, label=f"Fit L1 (l = {l1_eksperimentalno*1000:.1f} mm)")
+plt.plot(kut_gusti_deg, teorijski_period(kut_gusti_rad, l2_eksperimentalno), color="hotpink", linewidth=2, label=f"Fit L2 (l = {l2_eksperimentalno*1000:.1f} mm)")
+
+plt.xlabel("Kut otklona theta [deg]", fontsize=11)
+plt.ylabel("Period titranja T [s]", fontsize=11)
+plt.title("Ovisnost perioda fizikalnog njihala o kutu", fontsize=13)
+plt.grid(True)
+plt.legend(fontsize=10)
+plt.show()
