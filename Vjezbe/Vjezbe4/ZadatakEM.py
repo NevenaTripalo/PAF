@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 
 #konstante
 m = 9.11e-31
-dt = 1e-13
+dt = 1e-14
 
 def simulacija(q, E, B):
     v = np.array([1e5, 2e5, 3e5])
@@ -19,7 +19,7 @@ def simulacija(q, E, B):
     y_koord=[]
     z_koord=[]
 
-    for i in range(4000):
+    for i in range(15000):
         x_koord.append(r[0])
         y_koord.append(r[1])
         z_koord.append(r[2])
